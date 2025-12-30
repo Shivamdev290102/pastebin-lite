@@ -1,41 +1,40 @@
-<<<<<<< HEAD
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pastebin-Lite
 
-## Getting Started
+A simple Pastebin clone built with Next.js and Vercel KV (Upstash Redis).
+Supports TTL expiry and max view limits.
 
-First, run the development server:
+## Running Locally
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. Clone the repository:
+   git clone https://github.com/Shivamdev290102/pastebin-lite.git
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+   cd pastebin-lite
+   npm install
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Create a `.env.local` file and add your Redis credentials from Vercel Upstash:
+   KV_REST_API_URL=...
+   KV_REST_API_TOKEN=...
+   KV_REST_API_READ_ONLY_TOKEN=...
+   KV_URL=...
+   REDIS_URL=...
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Start development server:
+   npm run dev
 
-## Learn More
+5. Test endpoints:
+   GET http://localhost:3000/api/healthz
+   POST http://localhost:3000/api/pastes
 
-To learn more about Next.js, take a look at the following resources:
+## Persistence
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This app uses Vercel KV backed by Upstash (Redis).
+It ensures data persists across deployments and serverless invocations.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Design Notes
 
-## Deploy on Vercel
+- TTL and max-view logic are enforced in `/api/pastes/[id]`
+- The page route `/p/[id]` fetches from the API, not Redis directly.
+- Parameters use async destructuring required in Next.js 15.
+- All API endpoints return JSON with proper HTTP codes.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-=======
-# pastebin-lite
-Pastebin-lite project deployment
->>>>>>> 3590996c9a9bcbf2fad3dc834366f04964e40d69
