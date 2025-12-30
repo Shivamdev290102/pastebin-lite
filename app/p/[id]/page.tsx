@@ -31,8 +31,8 @@ export default async function PastePage({
   }
 
   return (
-    <pre className="p-6 whitespace-pre-wrap break-words">
-      {data.content}
+    <pre className="p-10 text-sm bg-black text-green-400 overflow-auto">
+      {JSON.stringify(data, null, 2)}
     </pre>
   );
 }
