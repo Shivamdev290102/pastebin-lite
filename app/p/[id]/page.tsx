@@ -1,20 +1,28 @@
+import { headers } from "next/headers";
+
+export const dynamic = "force-dynamic";
+
 async function getPaste(id: string) {
-  const res = await fetch(`http://localhost:3000/api/pastes/${id}`, {
-    cache: "no-store"
+  const h = await headers();          // ← must await
+  const host = h.get("host");         // ← now safe
+
+  const protocol =
+    process.env.NODE_ENV === "development" ? "http" : "https";
+
+  const res = await fetch(`${protocol}://${host}/api/pastes/${id}`, {
+    cache: "no-store",
   });
 
   if (!res.ok) return null;
-
   return res.json();
 }
-
 
 export default async function PastePage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string }>;   // ← must be Promise
 }) {
-  const { id } = await params;   // 👈 MUST await
+  const { id } = await params;       // ← must await
 
   const data = await getPaste(id);
 
@@ -23,11 +31,8 @@ export default async function PastePage({
   }
 
   return (
-    <div className="p-10">
-      <pre className="whitespace-pre-wrap bg-gray-100 p-4 rounded">
-        {data.content}
-      </pre>
-    </div>
+    <pre className="p-6 whitespace-pre-wrap break-words">
+      {data.content}
+    </pre>
   );
 }
-
