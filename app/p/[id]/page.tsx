@@ -1,16 +1,21 @@
 async function getPaste(id: string) {
   const res = await fetch(`http://localhost:3000/api/pastes/${id}`, {
-    cache: "no-store",
+    cache: "no-store"
   });
 
   if (!res.ok) return null;
+
   return res.json();
 }
 
-export default async function PastePage(props: {
+
+export default async function PastePage({
+  params,
+}: {
   params: Promise<{ id: string }>;
 }) {
-  const { id } = await props.params;
+  const { id } = await params;   // 👈 MUST await
+
   const data = await getPaste(id);
 
   if (!data) {
@@ -18,8 +23,11 @@ export default async function PastePage(props: {
   }
 
   return (
-    <pre className="p-6 whitespace-pre-wrap break-words bg-gray-100 min-h-screen">
-      {data.content}
-    </pre>
+    <div className="p-10">
+      <pre className="whitespace-pre-wrap bg-gray-100 p-4 rounded">
+        {data.content}
+      </pre>
+    </div>
   );
 }
+
